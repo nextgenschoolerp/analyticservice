@@ -126,9 +126,9 @@ INSERT INTO analytics_bank_reconciliation (
 -- 8. US-10003: WhatsApp Gateway Integration Configs
 -- ---------------------------------------------------------------------------------------------------
 INSERT INTO analytics_whatsapp_configs (
-    id, tenant_id, business_phone_number_id, waba_account_id, webhook_verify_token, is_active, created_by, updated_by
+    id, tenant_id, bsp_provider, phone_number_id, business_account_id, sms_failover_enabled, sms_failover_gateway, is_active, created_by, updated_by
 ) VALUES
-('5eed0010-0009-4000-8000-000000000001', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '109823908492019', 'waba_acc_dps_delhi_01', 'kvs_verify_wa_token_secret_9948', true, 'seed:module10', 'seed:module10');
+('5eed0010-0009-4000-8000-000000000001', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'META_DIRECT', '109823908492019', 'waba_acc_dps_delhi_01', true, 'GUPSHUP_SMS', true, 'seed:module10', 'seed:module10');
 
 -- ---------------------------------------------------------------------------------------------------
 -- 9. US-10004: Tally Prime Voucher XML Synchronization
@@ -176,9 +176,9 @@ INSERT INTO analytics_system_health_metrics (
 -- 14. US-10007: Immutable Database Modification Forensic Audit Trail
 -- ---------------------------------------------------------------------------------------------------
 INSERT INTO analytics_data_modification_audits (
-    id, tenant_id, table_name, operation, record_id, old_values_json, new_values_json, modified_by_username, query_duration_ms, client_ip, created_by, updated_by
+    id, tenant_id, table_name, operation, record_id, old_values_json, new_values_json, modified_by_user_id, modified_by_username, query_duration_ms, client_ip, created_by, updated_by
 ) VALUES
-('5eed0010-0015-4000-8000-000000000001', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'student_fee_ledgers', 'UPDATE', 'LEDGER-REC-9014', '{"waiver_amount":0}', '{"waiver_amount":5000,"approved_by":"Principal"}', 'accounts_admin', 14, '10.14.20.101', 'seed:module10', 'seed:module10');
+('5eed0010-0015-4000-8000-000000000001', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'student_fee_ledgers', 'UPDATE', 'LEDGER-REC-9014', '{"waiver_amount":0}', '{"waiver_amount":5000,"approved_by":"Principal"}', '5eed0010-0000-4000-8000-000000000002', 'accounts_admin', 14, '10.14.20.101', 'seed:module10', 'seed:module10');
 
 -- ---------------------------------------------------------------------------------------------------
 -- 15. US-10008: Automated Cloud Database Backup Snapshots
@@ -228,5 +228,21 @@ INSERT INTO analytics_trustee_kpi_dashboards (
 ) VALUES
 ('5eed0010-0021-4000-8000-000000000001', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Q2 FY 2026-27', 96.8, 95.2, 1280, 17.8, 99.2, 'Exceeded board academic targets and maintained 96%+ fee recovery.', 'seed:module10', 'seed:module10'),
 ('5eed0010-0021-4000-8000-000000000002', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Q3 FY 2026-27', 97.4, 95.8, 1310, 17.5, 99.4, 'Board quarterly KPIs exceed targeted operational thresholds.', 'seed:module10', 'seed:module10');
+
+-- ---------------------------------------------------------------------------------------------------
+-- 20. Audit columns: Hibernate-created tables have no defaults, and a NULL @Version makes JPA treat
+--     a seeded row as new on save, so stamp created_at / updated_at / version on every seed row.
+-- ---------------------------------------------------------------------------------------------------
+DO $$
+DECLARE t text;
+BEGIN
+    FOR t IN SELECT table_name FROM information_schema.tables
+             WHERE table_schema = current_schema() AND table_name LIKE 'analytics\_%'
+    LOOP
+        EXECUTE format('UPDATE %I SET created_at = COALESCE(created_at, CURRENT_TIMESTAMP), '
+                       'updated_at = COALESCE(updated_at, CURRENT_TIMESTAMP), version = COALESCE(version, 0) '
+                       'WHERE created_by = ''seed:module10''', t);
+    END LOOP;
+END $$;
 
 COMMIT;
