@@ -1,0 +1,1060 @@
+{
+  "info": {
+    "_postman_id": "10000010-anal-4000-8000-000000000001",
+    "name": "School ERP - AnalyticsService (Module 10)",
+    "description": "Module 10 Enterprise Integrations, API Webhooks, Compliance & Analytics (analyticservice, port 8091, context path /analyticservice, API base /api/v1/analytics). Covers stories US-10000 to US-10019. Run in order after loading module10_analytics_seed.sql.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8091/analyticservice",
+      "type": "string"
+    },
+    {
+      "key": "authUrl",
+      "value": "http://localhost:8082/authservice",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "Password@123",
+      "type": "string"
+    },
+    {
+      "key": "tenantId",
+      "value": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "endpointId",
+      "value": "5eed0010-0001-4000-8000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "apiKeyId",
+      "value": "5eed0010-0002-4000-8000-000000000001",
+      "type": "string"
+    },
+    {
+      "key": "customReportId",
+      "value": "5eed0010-0003-4000-8000-000000000001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Sign In & Tokens",
+      "item": [
+        {
+          "name": "Sign in as Super Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.token) {",
+                  "    pm.collectionVariables.set('adminToken', res.data.token);",
+                  "} else if (res.token) {",
+                  "    pm.collectionVariables.set('adminToken', res.token);",
+                  "}",
+                  "pm.test('Status is 200', function () { pm.response.to.have.status(200); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{authUrl}}/api/v1/auth/login",
+              "host": ["{{authUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 - US-10000: Integration Endpoints Catalog",
+      "item": [
+        {
+          "name": "Register API Integration Endpoint",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) { pm.collectionVariables.set('endpointId', res.data.id); }",
+                  "pm.test('Status is 201', function () { pm.response.to.have.status(201); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"endpointName\": \"LMS Canvas Grade Syncer\",\n  \"targetUrl\": \"https://canvas.partner.edu/api/v1/courses/sync\",\n  \"httpMethod\": \"POST\",\n  \"authType\": \"BEARER_TOKEN\",\n  \"headersJson\": \"{\\\"X-Partner-Id\\\":\\\"KVS-01\\\"}\",\n  \"description\": \"Live gradebook sync with Canvas\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/endpoints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "endpoints"]
+            }
+          }
+        },
+        {
+          "name": "List Integration Endpoints",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/endpoints?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "endpoints"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Integration Endpoint By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/endpoints/{{endpointId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "endpoints", "{{endpointId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - US-10001: Biometric Hardware Connector",
+      "item": [
+        {
+          "name": "Register Biometric Terminal Device",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"deviceSerialNumber\": \"ZK-SN-998822\",\n  \"deviceName\": \"Junior Wing Turnstile 01\",\n  \"ipAddress\": \"192.168.10.60\",\n  \"portNumber\": 4370,\n  \"location\": \"Junior Wing Entry Gates\",\n  \"deviceModel\": \"ZKTeco ProCapture-X\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/biometric/devices",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "biometric", "devices"]
+            }
+          }
+        },
+        {
+          "name": "List Biometric Devices",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/biometric/devices?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "biometric", "devices"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ingest Attendance Stream Punch Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"deviceSerialNumber\": \"ZK-SN-998822\",\n  \"userBiometricId\": \"BIO_STU_55102\",\n  \"punchTimestamp\": \"2026-10-23T08:15:00Z\",\n  \"direction\": \"IN\",\n  \"verificationType\": \"FACIAL_RECOGNITION\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/biometric/attendance-stream",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "biometric", "attendance-stream"]
+            }
+          }
+        },
+        {
+          "name": "List Ingested Attendance Stream Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/biometric/attendance-stream?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "biometric", "attendance-stream"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - US-10002: Payment Gateway Webhook Handlers",
+      "item": [
+        {
+          "name": "Process Payment Gateway Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"gatewayProvider\": \"RAZORPAY\",\n  \"gatewayEventId\": \"evt_rzp_order_99812\",\n  \"eventType\": \"payment.captured\",\n  \"transactionReference\": \"TXN-PAY-2026-881\",\n  \"amount\": 28500.00,\n  \"currency\": \"INR\",\n  \"payloadJson\": \"{\\\"order_id\\\":\\\"ord_881\\\",\\\"status\\\":\\\"captured\\\"}\",\n  \"signatureHeader\": \"sha256=d84f8812...\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/webhooks/payment",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "webhooks", "payment"]
+            }
+          }
+        },
+        {
+          "name": "List Processed Payment Webhooks",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/webhooks/payment?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "webhooks", "payment"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - US-10003: WhatsApp Business API & Failover",
+      "item": [
+        {
+          "name": "Dispatch WhatsApp Notification with SMS Fallback",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"recipientPhone\": \"+919876543210\",\n  \"templateName\": \"urgent_exam_alert_v1\",\n  \"messageContent\": \"Dear Parent, CBSE Term Exam Hall Tickets are now available in your portal.\",\n  \"enableSmsFailover\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/whatsapp/dispatch",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "whatsapp", "dispatch"]
+            }
+          }
+        },
+        {
+          "name": "Get WhatsApp Gateway Configs",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/whatsapp/configs?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "whatsapp", "configs"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - US-10004: Tally Prime Voucher XML Synchronization",
+      "item": [
+        {
+          "name": "Trigger Tally XML Sync Batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"voucherType\": \"RECEIPT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/tally/sync",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "tally", "sync"]
+            }
+          }
+        },
+        {
+          "name": "List Tally Sync Batches",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/tally/batches?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "tally", "batches"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - US-10005: CBSE LOC Candidate Export",
+      "item": [
+        {
+          "name": "Export CBSE List of Candidates (LOC)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"academicYearId\": \"5eed0010-0000-4000-8000-000000000001\",\n  \"className\": \"Class 10\",\n  \"exportFormat\": \"CBSE_TEXT_FORMAT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/compliance/cbse-loc/export",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "compliance", "cbse-loc", "export"]
+            }
+          }
+        },
+        {
+          "name": "List CBSE LOC Export Batches",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/compliance/cbse-loc/exports?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "compliance", "cbse-loc", "exports"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - US-10006: Server Health Telemetry",
+      "item": [
+        {
+          "name": "Record Server Telemetry Metric",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"serverNodeId\": \"kvs-prod-node-02\",\n  \"cpuUsagePct\": 28.5,\n  \"memoryUsagePct\": 54.0,\n  \"activeDbConnections\": 18,\n  \"idleDbConnections\": 12,\n  \"diskUsagePct\": 41.5,\n  \"avgResponseLatencyMs\": 48\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/health/telemetry",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "health", "telemetry"]
+            }
+          }
+        },
+        {
+          "name": "Get Latest Server Health Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/health/latest?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "health", "latest"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Server Health History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/health/history?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "health", "history"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - US-10007: Database Forensic Audit Trail",
+      "item": [
+        {
+          "name": "Record Forensic Database Audit Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"tableName\": \"exam_grade_records\",\n  \"operation\": \"UPDATE\",\n  \"recordId\": \"GRD-9041\",\n  \"oldValuesJson\": \"{\\\"marks_obtained\\\":72}\",\n  \"newValuesJson\": \"{\\\"marks_obtained\\\":85,\\\"reeval_approved_by\\\":\\\"Exam Controller\\\"}\",\n  \"modifiedByUsername\": \"exam_dean\",\n  \"queryDurationMs\": 9,\n  \"clientIp\": \"10.0.12.84\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/audit/logs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "audit", "logs"]
+            }
+          }
+        },
+        {
+          "name": "List Database Audit Trail",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/audit/logs?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "audit", "logs"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - US-10008: Automated Cloud Backup & PITR",
+      "item": [
+        {
+          "name": "Trigger Automated Cloud Backup Snapshot",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"snapshotName\": \"manual_pre_release_snapshot\",\n  \"cloudProvider\": \"AWS_S3\",\n  \"bucketLocation\": \"s3://kvs-db-backups-mumbai/snapshots/\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/backups",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "backups"]
+            }
+          }
+        },
+        {
+          "name": "List Cloud Backup Snapshots",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/backups?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "backups"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - US-10009: Visual Drag-and-Drop SQL Report Builder",
+      "item": [
+        {
+          "name": "Create Custom Analytical Report Definition",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) { pm.collectionVariables.set('customReportId', res.data.id); }",
+                  "pm.test('Status is 201', function () { pm.response.to.have.status(201); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"reportName\": \"Term Attendance Truancy Analytics\",\n  \"category\": \"ATTENDANCE\",\n  \"dimensionsJson\": \"[\\\"grade\\\", \\\"section\\\"]\",\n  \"metricsJson\": \"[\\\"avg(present_pct)\\\", \\\"sum(truant_count)\\\"]\",\n  \"filtersJson\": \"{\\\"term\\\":\\\"TERM_1\\\"}\",\n  \"chartType\": \"LINE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/reports/custom",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "reports", "custom"]
+            }
+          }
+        },
+        {
+          "name": "List Custom Report Definitions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/reports/custom?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "reports", "custom"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Execute Dynamic Custom Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/reports/custom/{{customReportId}}/execute",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "reports", "custom", "{{customReportId}}", "execute"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - US-10010: Latency Alert Rules",
+      "item": [
+        {
+          "name": "Configure API Latency Alert Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"ruleName\": \"Fee Collection High Latency Alert\",\n  \"endpointPattern\": \"/api/v1/financeservice/transactions/**\",\n  \"thresholdMs\": 400,\n  \"consecutiveBreaches\": 3,\n  \"alertWebhookUrl\": \"https://pagerduty.internal/kvs-infra\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/latency-rules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "latency-rules"]
+            }
+          }
+        },
+        {
+          "name": "List Latency Alert Rules",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/latency-rules?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "latency-rules"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 - US-10011: Rate Limiting Policies",
+      "item": [
+        {
+          "name": "Configure API Rate Limiting Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"policyName\": \"Parent Portal Ingestion Throttle\",\n  \"clientIdentifier\": \"parent_portal_pool\",\n  \"windowSeconds\": 60,\n  \"maxRequests\": 180,\n  \"enforcementAction\": \"THROTTLE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/rate-limits",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "rate-limits"]
+            }
+          }
+        },
+        {
+          "name": "List Rate Limiting Policies",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/rate-limits?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "rate-limits"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 - US-10012: Bank Statement Reconciliation",
+      "item": [
+        {
+          "name": "Verify Bank Reconciliation Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"statementTransactionId\": \"STMT-HDFC-90214\",\n  \"erpTransactionRef\": \"TXN-PAY-2026-881\",\n  \"bankAmount\": 28500.00,\n  \"erpLedgerAmount\": 28500.00,\n  \"transactionDate\": \"2026-10-23T10:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/bank-recon/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "bank-recon", "verify"]
+            }
+          }
+        },
+        {
+          "name": "List Bank Reconciliation History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/connectors/bank-recon?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "connectors", "bank-recon"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 - US-10013: Production Data Anonymization Engine",
+      "item": [
+        {
+          "name": "Execute Production Data Anonymization Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"jobName\": \"Monthly Dev Staging Sanitization\",\n  \"targetStagingDb\": \"kvs_school_erp_dev_staging\",\n  \"rulesAppliedJson\": \"{\\\"students.first_name\\\":\\\"Faker.name()\\\",\\\"parents.mobile\\\":\\\"+91990000XXXX\\\"}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/compliance/anonymization/execute",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "compliance", "anonymization", "execute"]
+            }
+          }
+        },
+        {
+          "name": "List Anonymization Jobs History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/compliance/anonymization/jobs?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "compliance", "anonymization", "jobs"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 - US-10014: Trustee Executive KPI Dashboards",
+      "item": [
+        {
+          "name": "Record Executive Trustee KPI Snapshot",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"periodName\": \"Q3 FY 2026-27\",\n  \"feeCollectionPct\": 97.4,\n  \"averageAttendancePct\": 95.8,\n  \"studentEnrollmentCount\": 1310,\n  \"teacherStudentRatio\": 17.5,\n  \"boardPassPercentage\": 99.4,\n  \"summaryNotes\": \"Board quarterly KPIs exceed targeted operational thresholds.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/reports/trustee/kpi",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "reports", "trustee", "kpi"]
+            }
+          }
+        },
+        {
+          "name": "List Trustee KPI Snapshots",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/reports/trustee/kpi?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "reports", "trustee", "kpi"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 - US-10015: API Keys & Credentials Management",
+      "item": [
+        {
+          "name": "Generate Partner API Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) { pm.collectionVariables.set('apiKeyId', res.data.id); }",
+                  "pm.test('Status is 201', function () { pm.response.to.have.status(201); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"keyName\": \"Third-Party Cafeteria POS Key\",\n  \"allowedScopes\": \"POS_DEBIT,STUDENT_VERIFY\",\n  \"rateLimitTier\": \"PREMIUM\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/api-keys",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "api-keys"]
+            }
+          }
+        },
+        {
+          "name": "List Tenant API Keys",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/api-keys?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "api-keys"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Revoke API Key",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/integrations/api-keys/{{apiKeyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "integrations", "api-keys", "{{apiKeyId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 - US-10016: Slow Query Profiling & Optimization",
+      "item": [
+        {
+          "name": "Get Slow Query Recommendations & Index Plans",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/performance/slow-queries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "performance", "slow-queries"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 - US-10017: Board Regulatory Compliance Certificates",
+      "item": [
+        {
+          "name": "Register Regulatory Compliance Certificate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"certificateType\": \"BUILDING_SAFETY_NOC\",\n  \"certificateNumber\": \"PWD/BLD/NOC/2026/102\",\n  \"issuingAuthority\": \"Public Works Department (PWD)\",\n  \"issueDate\": \"2026-06-01T00:00:00Z\",\n  \"validUntil\": \"2029-05-31T00:00:00Z\",\n  \"documentUrl\": \"https://storage.kvs.local/compliance/pwd_building_2026.pdf\",\n  \"verificationNotes\": \"Structural safety audit verified for secondary school building block.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/compliance/certificates",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "compliance", "certificates"]
+            }
+          }
+        },
+        {
+          "name": "List Compliance Certificates",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/compliance/certificates?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "compliance", "certificates"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 - US-10018: Database Replica Failover Cluster Management",
+      "item": [
+        {
+          "name": "Execute Database Replica Failover",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"targetHostname\": \"kvs-db-replica-mumbai-03.internal\",\n  \"failoverReason\": \"Zone AZ-1 power outage failover drill\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/replicas/failover",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "replicas", "failover"]
+            }
+          }
+        },
+        {
+          "name": "Get Database Replica Cluster Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/replicas?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "replicas"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 - US-10019: System Uptime SLAs & Public Status Page",
+      "item": [
+        {
+          "name": "Record System Uptime SLA",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"periodMonthYear\": \"2026-10\",\n  \"totalMinutes\": 44640,\n  \"downtimeMinutes\": 8,\n  \"slaTargetPct\": 99.9\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/uptime/sla",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "uptime", "sla"]
+            }
+          }
+        },
+        {
+          "name": "List System Uptime SLAs",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/uptime/sla?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "uptime", "sla"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Publish Status Incident Notice",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"incidentTitle\": \"Payment Gateway UPI Response Slowness\",\n  \"severity\": \"MINOR\",\n  \"status\": \"MONITORING\",\n  \"impactedServices\": \"PAYMENTS,FEE_COLLECTION\",\n  \"incidentMessage\": \"Intermittent bank webhook confirmation lag observed; Netbanking and Card channels unaffected.\",\n  \"isPublic\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/status/incidents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "status", "incidents"]
+            }
+          }
+        },
+        {
+          "name": "List Status Incident Notices",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/system/status/incidents?tenantId={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "analytics", "system", "status", "incidents"],
+              "query": [
+                { "key": "tenantId", "value": "{{tenantId}}" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
