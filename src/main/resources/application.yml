@@ -1,4 +1,12 @@
 spring:
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:niraj.jayswal@knowvasystems.com}
+    password: ${SMTP_PASSWORD:SMTP_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
   devtools:
     restart:
       enabled: true
@@ -56,3 +64,16 @@ logging:
     com.kvs: debug
     com.kvs.core.logging.RequestAndRepositoryLoggingAspect: debug
     org.springframework.security: debug
+
+kvs:
+  # Shared WhatsApp/email provider settings (ms-core com.kvs.core.notification). LOG = log only, no message is sent.
+  notification:
+    whatsapp:
+      provider: ${WHATSAPP_PROVIDER:LOG}
+      access-token: ${WHATSAPP_ACCESS_TOKEN:REPLACE_WITH_WHATSAPP_ACCESS_TOKEN}
+      phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:REPLACE_WITH_PHONE_NUMBER_ID}
+      api-version: ${WHATSAPP_API_VERSION:v20.0}
+      template-language: ${WHATSAPP_TEMPLATE_LANGUAGE:en}
+    email:
+      provider: ${EMAIL_PROVIDER:LOG}
+      from: ${EMAIL_FROM:REPLACE_WITH_SENDER_EMAIL}

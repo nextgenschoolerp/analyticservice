@@ -116,8 +116,10 @@ class HardwareAndWebhooksIntegrationTest extends AnalyticsTestSupport {
 
         JsonNode waJson = data(postJson("/connectors/whatsapp/dispatch", adminToken, waReq)
                 .andExpect(status().isOk()));
-        assertThat(waJson.get("messageStatus").asText()).isEqualTo("DELIVERED");
-        assertThat(waJson.get("channelUsed").asText()).isEqualTo("SMS_FAILOVER");
+        // Default kvs.notification.whatsapp.provider=LOG: the message is logged and reported as sent
+        assertThat(waJson.get("messageStatus").asText()).isEqualTo("SENT");
+        assertThat(waJson.get("channelUsed").asText()).isEqualTo("WHATSAPP");
+        assertThat(waJson.get("carrierMessageId").asText()).startsWith("LOG-WHATSAPP-");
 
         // 5. US-10004: Tally Prime Voucher XML Synchronization
         TallySyncRequest tallyReq = TallySyncRequest.builder()

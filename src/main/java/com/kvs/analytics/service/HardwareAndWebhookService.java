@@ -4,6 +4,10 @@ import com.kvs.analytics.dto.*;
 import com.kvs.analytics.entity.*;
 import com.kvs.analytics.enums.*;
 import com.kvs.analytics.repo.*;
+import com.kvs.core.notification.NotificationChannel;
+import com.kvs.core.notification.NotificationDispatchException;
+import com.kvs.core.notification.NotificationDispatcher;
+import com.kvs.core.notification.NotificationMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,7 @@ public class HardwareAndWebhookService {
     private final BankReconciliationRecordRepository bankReconRepo;
     private final WhatsAppGatewayConfigRepository waConfigRepo;
     private final TallySyncBatchRepository tallyRepo;
+    private final NotificationDispatcher notifications;
 
     // --- US-10001: Biometric Hardware Connector ---
     public BiometricDeviceResponse registerDevice(BiometricDeviceRequest req) {
@@ -158,17 +163,27 @@ public class HardwareAndWebhookService {
     public WhatsAppDispatchResponse dispatchWhatsAppMessage(WhatsAppDispatchRequest req) {
         log.info("Routing official WhatsApp broadcast to '{}' with template '{}'", req.getRecipientPhone(), req.getTemplateName());
 
-        // Check if failover triggered
-        boolean failover = Boolean.TRUE.equals(req.getEnableSmsFailover());
-        String channel = failover ? "SMS_FAILOVER" : "WHATSAPP";
-        String status = "DELIVERED";
-        String carrierId = "WA_MSG_" + UUID.randomUUID().toString().substring(0, 12);
+        String body = req.getMessageContent() != null && !req.getMessageContent().isBlank()
+                ? req.getMessageContent() : req.getTemplateName();
+        String status;
+        String carrierId = null;
+        try {
+            NotificationMessage message = req.getTemplateName() != null && !req.getTemplateName().isBlank()
+                    ? NotificationMessage.template(req.getRecipientPhone(), req.getTemplateName(), List.of(body))
+                    : new NotificationMessage(req.getRecipientPhone(), null, body);
+            carrierId = notifications.send(NotificationChannel.WHATSAPP, message);
+            status = "SENT";
+        } catch (NotificationDispatchException e) {
+            // No SMS sender is connected yet, so a failed WhatsApp send is reported as FAILED even when failover was requested
+            log.warn("WhatsApp dispatch to '{}' failed: {}", req.getRecipientPhone(), e.getMessage());
+            status = "FAILED";
+        }
 
         return WhatsAppDispatchResponse.builder()
                 .dispatchId("DISPATCH-" + UUID.randomUUID().toString().substring(0, 8))
                 .tenantId(req.getTenantId())
                 .recipientPhone(req.getRecipientPhone())
-                .channelUsed(channel)
+                .channelUsed("WHATSAPP")
                 .messageStatus(status)
                 .carrierMessageId(carrierId)
                 .dispatchedAt(Instant.now())
