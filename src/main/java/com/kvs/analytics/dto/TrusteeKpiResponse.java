@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TrusteeKpiResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String periodName;
     private Double feeCollectionPct;
     private Double averageAttendancePct;

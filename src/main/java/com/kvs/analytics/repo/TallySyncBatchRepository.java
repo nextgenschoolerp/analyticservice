@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface TallySyncBatchRepository extends JpaRepository<TallySyncBatch, UUID> {
-    List<TallySyncBatch> findByTenantId(UUID tenantId);
+    List<TallySyncBatch> findByTenantId(String tenantId);
     Optional<TallySyncBatch> findByBatchNumber(String batchNumber);
 }

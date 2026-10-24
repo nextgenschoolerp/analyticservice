@@ -25,7 +25,7 @@ public class BiometricTerminalDevice extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "device_serial_number", nullable = false, unique = true, length = 100)
     private String deviceSerialNumber;

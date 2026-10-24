@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TrusteeKpiRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "periodName is mandatory (e.g. FY 2026-27 Q2)")
     private String periodName;

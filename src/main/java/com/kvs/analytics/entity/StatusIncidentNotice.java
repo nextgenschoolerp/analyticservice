@@ -26,7 +26,7 @@ public class StatusIncidentNotice extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "incident_title", nullable = false, length = 200)
     private String incidentTitle;

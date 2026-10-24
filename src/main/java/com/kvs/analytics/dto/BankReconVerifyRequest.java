@@ -15,7 +15,7 @@ import java.util.UUID;
 public class BankReconVerifyRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "statementTransactionId is mandatory")
     private String statementTransactionId;

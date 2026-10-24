@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AttendanceStreamEventRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "deviceSerialNumber cannot be blank")
     private String deviceSerialNumber;

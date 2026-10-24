@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BiometricDeviceResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String deviceSerialNumber;
     private String deviceName;
     private String ipAddress;

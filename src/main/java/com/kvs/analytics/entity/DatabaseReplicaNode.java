@@ -25,7 +25,7 @@ public class DatabaseReplicaNode extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "node_hostname", nullable = false, length = 150)
     private String nodeHostname;

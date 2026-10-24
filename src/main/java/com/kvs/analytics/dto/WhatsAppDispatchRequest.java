@@ -13,7 +13,7 @@ import java.util.UUID;
 public class WhatsAppDispatchRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "recipientPhone is mandatory")
     private String recipientPhone;

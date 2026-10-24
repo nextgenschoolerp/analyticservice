@@ -13,7 +13,7 @@ import java.util.UUID;
 public class UptimeSlaRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "periodMonthYear is mandatory (e.g. 2026-10)")
     private String periodMonthYear;

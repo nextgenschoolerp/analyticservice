@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class IntegrationEndpointResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String endpointName;
     private String targetUrl;
     private String httpMethod;

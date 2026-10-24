@@ -13,7 +13,7 @@ import java.util.UUID;
 public class RateLimitPolicyRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "policyName cannot be blank")
     private String policyName;

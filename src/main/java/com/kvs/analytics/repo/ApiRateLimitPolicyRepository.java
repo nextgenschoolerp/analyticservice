@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface ApiRateLimitPolicyRepository extends JpaRepository<ApiRateLimitPolicy, UUID> {
-    List<ApiRateLimitPolicy> findByTenantId(UUID tenantId);
-    Optional<ApiRateLimitPolicy> findByTenantIdAndClientIdentifier(UUID tenantId, String clientIdentifier);
+    List<ApiRateLimitPolicy> findByTenantId(String tenantId);
+    Optional<ApiRateLimitPolicy> findByTenantIdAndClientIdentifier(String tenantId, String clientIdentifier);
 }

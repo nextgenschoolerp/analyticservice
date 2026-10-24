@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface BankReconciliationRecordRepository extends JpaRepository<BankReconciliationRecord, UUID> {
-    List<BankReconciliationRecord> findByTenantId(UUID tenantId);
-    List<BankReconciliationRecord> findByTenantIdAndReconciliationStatus(UUID tenantId, ReconciliationStatus status);
+    List<BankReconciliationRecord> findByTenantId(String tenantId);
+    List<BankReconciliationRecord> findByTenantIdAndReconciliationStatus(String tenantId, ReconciliationStatus status);
 }

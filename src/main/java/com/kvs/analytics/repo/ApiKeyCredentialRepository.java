@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface ApiKeyCredentialRepository extends JpaRepository<ApiKeyCredential, UUID> {
-    List<ApiKeyCredential> findByTenantId(UUID tenantId);
+    List<ApiKeyCredential> findByTenantId(String tenantId);
     Optional<ApiKeyCredential> findByClientId(String clientId);
 }

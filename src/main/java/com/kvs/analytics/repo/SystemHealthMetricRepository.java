@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface SystemHealthMetricRepository extends JpaRepository<SystemHealthMetric, UUID> {
-    List<SystemHealthMetric> findByTenantIdOrderByRecordedAtDesc(UUID tenantId);
-    Optional<SystemHealthMetric> findFirstByTenantIdOrderByRecordedAtDesc(UUID tenantId);
+    List<SystemHealthMetric> findByTenantIdOrderByRecordedAtDesc(String tenantId);
+    Optional<SystemHealthMetric> findFirstByTenantIdOrderByRecordedAtDesc(String tenantId);
 }

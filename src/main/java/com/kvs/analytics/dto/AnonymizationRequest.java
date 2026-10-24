@@ -13,7 +13,7 @@ import java.util.UUID;
 public class AnonymizationRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "jobName is mandatory")
     private String jobName;

@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CustomReportResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String reportName;
     private String category;
     private String dimensionsJson;

@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ApiKeyResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String keyName;
     private String clientId;
     private String apiKeyPrefix;

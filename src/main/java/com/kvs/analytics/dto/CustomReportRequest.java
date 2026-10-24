@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CustomReportRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "reportName is mandatory")
     private String reportName;

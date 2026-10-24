@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AnonymizationResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String jobName;
     private String targetStagingDb;
     private Integer tablesMasked;

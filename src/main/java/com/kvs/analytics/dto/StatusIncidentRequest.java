@@ -15,7 +15,7 @@ import java.util.UUID;
 public class StatusIncidentRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "incidentTitle is mandatory")
     private String incidentTitle;

@@ -46,7 +46,7 @@ public class IntegrationPlatformController {
     @GetMapping("/endpoints")
     @PreAuthorize(AnalyticsRoles.INTEGRATION_MANAGE)
     public ResponseEntity<ApiResponse<List<IntegrationEndpointResponse>>> listEndpoints(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<IntegrationEndpointResponse> response = integrationService.listEndpoints(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<IntegrationEndpointResponse>>builder()
@@ -89,7 +89,7 @@ public class IntegrationPlatformController {
     @GetMapping("/api-keys")
     @PreAuthorize(AnalyticsRoles.INTEGRATION_MANAGE)
     public ResponseEntity<ApiResponse<List<ApiKeyResponse>>> listApiKeys(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<ApiKeyResponse> response = integrationService.listApiKeys(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<ApiKeyResponse>>builder()
@@ -131,7 +131,7 @@ public class IntegrationPlatformController {
     @GetMapping("/rate-limits")
     @PreAuthorize(AnalyticsRoles.INTEGRATION_MANAGE)
     public ResponseEntity<ApiResponse<List<RateLimitPolicyResponse>>> listRateLimits(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<RateLimitPolicyResponse> response = integrationService.listRateLimits(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<RateLimitPolicyResponse>>builder()
@@ -160,7 +160,7 @@ public class IntegrationPlatformController {
     @GetMapping("/latency-rules")
     @PreAuthorize(AnalyticsRoles.INTEGRATION_MANAGE)
     public ResponseEntity<ApiResponse<List<LatencyRuleResponse>>> listLatencyRules(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<LatencyRuleResponse> response = integrationService.listLatencyRules(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<LatencyRuleResponse>>builder()

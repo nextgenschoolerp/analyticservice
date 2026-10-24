@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ReplicaNodeResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String nodeHostname;
     private Integer port;
     private String replicaRole;

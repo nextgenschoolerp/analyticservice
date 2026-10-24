@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface BiometricTerminalDeviceRepository extends JpaRepository<BiometricTerminalDevice, UUID> {
-    List<BiometricTerminalDevice> findByTenantId(UUID tenantId);
+    List<BiometricTerminalDevice> findByTenantId(String tenantId);
     Optional<BiometricTerminalDevice> findByDeviceSerialNumber(String serialNumber);
 }

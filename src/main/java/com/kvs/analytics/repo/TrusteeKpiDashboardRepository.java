@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface TrusteeKpiDashboardRepository extends JpaRepository<TrusteeKpiDashboard, UUID> {
-    List<TrusteeKpiDashboard> findByTenantIdOrderByCreatedAtDesc(UUID tenantId);
-    Optional<TrusteeKpiDashboard> findByTenantIdAndPeriodName(UUID tenantId, String periodName);
+    List<TrusteeKpiDashboard> findByTenantIdOrderByCreatedAtDesc(String tenantId);
+    Optional<TrusteeKpiDashboard> findByTenantIdAndPeriodName(String tenantId, String periodName);
 }

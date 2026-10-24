@@ -51,7 +51,7 @@ public class IntegrationPlatformService {
     }
 
     @Transactional(readOnly = true)
-    public List<IntegrationEndpointResponse> listEndpoints(UUID tenantId) {
+    public List<IntegrationEndpointResponse> listEndpoints(String tenantId) {
         return endpointRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToEndpointResponse)
                 .collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class IntegrationPlatformService {
     }
 
     @Transactional(readOnly = true)
-    public List<ApiKeyResponse> listApiKeys(UUID tenantId) {
+    public List<ApiKeyResponse> listApiKeys(String tenantId) {
         return apiKeyRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToApiKeyResponse)
                 .collect(Collectors.toList());
@@ -128,7 +128,7 @@ public class IntegrationPlatformService {
     }
 
     @Transactional(readOnly = true)
-    public List<RateLimitPolicyResponse> listRateLimits(UUID tenantId) {
+    public List<RateLimitPolicyResponse> listRateLimits(String tenantId) {
         return rateLimitRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToRateLimitResponse)
                 .collect(Collectors.toList());
@@ -153,7 +153,7 @@ public class IntegrationPlatformService {
     }
 
     @Transactional(readOnly = true)
-    public List<LatencyRuleResponse> listLatencyRules(UUID tenantId) {
+    public List<LatencyRuleResponse> listLatencyRules(String tenantId) {
         return latencyRuleRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToLatencyResponse)
                 .collect(Collectors.toList());

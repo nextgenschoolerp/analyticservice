@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class LatencyRuleResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String ruleName;
     private String endpointPattern;
     private Long thresholdMs;

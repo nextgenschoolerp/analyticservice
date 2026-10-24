@@ -24,7 +24,7 @@ public class CbseLocExportConfig extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "academic_year_id", nullable = false)
     private UUID academicYearId;

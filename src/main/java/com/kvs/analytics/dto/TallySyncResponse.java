@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TallySyncResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String batchNumber;
     private Instant syncDate;
     private Integer voucherCount;

@@ -54,7 +54,7 @@ public class HardwareAndWebhookService {
     }
 
     @Transactional(readOnly = true)
-    public List<BiometricDeviceResponse> listDevices(UUID tenantId) {
+    public List<BiometricDeviceResponse> listDevices(String tenantId) {
         return deviceRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToDeviceResponse)
                 .collect(Collectors.toList());
@@ -78,7 +78,7 @@ public class HardwareAndWebhookService {
     }
 
     @Transactional(readOnly = true)
-    public List<AttendanceStreamEventResponse> listAttendanceEvents(UUID tenantId) {
+    public List<AttendanceStreamEventResponse> listAttendanceEvents(String tenantId) {
         return streamEventRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToStreamResponse)
                 .collect(Collectors.toList());
@@ -117,7 +117,7 @@ public class HardwareAndWebhookService {
     }
 
     @Transactional(readOnly = true)
-    public List<PaymentWebhookResponse> listPaymentWebhooks(UUID tenantId) {
+    public List<PaymentWebhookResponse> listPaymentWebhooks(String tenantId) {
         return paymentWebhookRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToWebhookResponse)
                 .collect(Collectors.toList());
@@ -153,7 +153,7 @@ public class HardwareAndWebhookService {
     }
 
     @Transactional(readOnly = true)
-    public List<BankReconResponse> listBankReconciliation(UUID tenantId) {
+    public List<BankReconResponse> listBankReconciliation(String tenantId) {
         return bankReconRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToBankReconResponse)
                 .collect(Collectors.toList());
@@ -191,7 +191,7 @@ public class HardwareAndWebhookService {
     }
 
     @Transactional(readOnly = true)
-    public List<WhatsAppGatewayConfig> getWhatsAppConfigs(UUID tenantId) {
+    public List<WhatsAppGatewayConfig> getWhatsAppConfigs(String tenantId) {
         return waConfigRepo.findByTenantId(tenantId);
     }
 
@@ -256,7 +256,7 @@ public class HardwareAndWebhookService {
     }
 
     @Transactional(readOnly = true)
-    public List<TallySyncResponse> listTallyBatches(UUID tenantId) {
+    public List<TallySyncResponse> listTallyBatches(String tenantId) {
         return tallyRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToTallyResponse)
                 .collect(Collectors.toList());

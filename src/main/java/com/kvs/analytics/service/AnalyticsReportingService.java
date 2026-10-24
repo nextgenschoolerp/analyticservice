@@ -44,7 +44,7 @@ public class AnalyticsReportingService {
     }
 
     @Transactional(readOnly = true)
-    public List<CustomReportResponse> listCustomReports(UUID tenantId) {
+    public List<CustomReportResponse> listCustomReports(String tenantId) {
         return reportRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToReportResponse)
                 .collect(Collectors.toList());
@@ -116,7 +116,7 @@ public class AnalyticsReportingService {
     }
 
     @Transactional(readOnly = true)
-    public List<TrusteeKpiResponse> listTrusteeDashboards(UUID tenantId) {
+    public List<TrusteeKpiResponse> listTrusteeDashboards(String tenantId) {
         return trusteeRepo.findByTenantIdOrderByCreatedAtDesc(tenantId).stream()
                 .map(this::mapToTrusteeResponse)
                 .collect(Collectors.toList());

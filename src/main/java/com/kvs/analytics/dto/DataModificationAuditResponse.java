@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DataModificationAuditResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String tableName;
     private String operation;
     private String recordId;

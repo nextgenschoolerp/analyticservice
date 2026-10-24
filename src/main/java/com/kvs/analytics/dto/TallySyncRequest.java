@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TallySyncRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     private Instant fromDate;
     private Instant toDate;

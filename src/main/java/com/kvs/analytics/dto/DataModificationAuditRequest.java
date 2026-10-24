@@ -13,7 +13,7 @@ import java.util.UUID;
 public class DataModificationAuditRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "tableName is mandatory")
     private String tableName;

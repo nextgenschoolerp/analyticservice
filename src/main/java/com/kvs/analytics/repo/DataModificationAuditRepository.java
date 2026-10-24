@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface DataModificationAuditRepository extends JpaRepository<DataModificationAudit, UUID> {
-    List<DataModificationAudit> findByTenantIdOrderByCreatedAtDesc(UUID tenantId);
-    List<DataModificationAudit> findByTenantIdAndTableName(UUID tenantId, String tableName);
+    List<DataModificationAudit> findByTenantIdOrderByCreatedAtDesc(String tenantId);
+    List<DataModificationAudit> findByTenantIdAndTableName(String tenantId, String tableName);
 }

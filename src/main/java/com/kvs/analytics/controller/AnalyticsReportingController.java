@@ -44,7 +44,7 @@ public class AnalyticsReportingController {
     @GetMapping("/custom")
     @PreAuthorize(AnalyticsRoles.REPORT_BUILDER)
     public ResponseEntity<ApiResponse<List<CustomReportResponse>>> listCustomReports(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<CustomReportResponse> response = reportingService.listCustomReports(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<CustomReportResponse>>builder()
@@ -87,7 +87,7 @@ public class AnalyticsReportingController {
     @GetMapping("/trustee/kpi")
     @PreAuthorize(AnalyticsRoles.ANALYTICS_VIEW)
     public ResponseEntity<ApiResponse<List<TrusteeKpiResponse>>> listTrusteeDashboards(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<TrusteeKpiResponse> response = reportingService.listTrusteeDashboards(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<TrusteeKpiResponse>>builder()

@@ -29,8 +29,8 @@ public abstract class AnalyticsTestSupport {
     @Autowired protected JwtTokenService jwtTokenService;
 
     protected final String run = UUID.randomUUID().toString().substring(0, 8);
-    protected final String tenant = "T-ANALYTICS-" + run;
-    protected final UUID tenantId = UUID.nameUUIDFromBytes(("T-ANALYTICS-" + run).getBytes());
+    protected final String tenantId = "T-ANALYTICS-" + run;
+    protected final String tenant = tenantId;
 
     protected String token(String role) {
         return token(role, role.toLowerCase(Locale.ROOT) + "-" + run);

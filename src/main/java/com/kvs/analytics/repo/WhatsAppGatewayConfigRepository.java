@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface WhatsAppGatewayConfigRepository extends JpaRepository<WhatsAppGatewayConfig, UUID> {
-    List<WhatsAppGatewayConfig> findByTenantId(UUID tenantId);
-    Optional<WhatsAppGatewayConfig> findByTenantIdAndIsActiveTrue(UUID tenantId);
+    List<WhatsAppGatewayConfig> findByTenantId(String tenantId);
+    Optional<WhatsAppGatewayConfig> findByTenantIdAndIsActiveTrue(String tenantId);
 }

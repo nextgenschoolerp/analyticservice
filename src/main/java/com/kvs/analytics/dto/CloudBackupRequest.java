@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CloudBackupRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "snapshotName is mandatory")
     private String snapshotName;

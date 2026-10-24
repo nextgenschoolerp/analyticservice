@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CbseLocExportResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private UUID academicYearId;
     private String className;
     private Integer candidateCount;

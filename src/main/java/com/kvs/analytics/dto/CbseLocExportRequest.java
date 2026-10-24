@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CbseLocExportRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotNull(message = "academicYearId is mandatory")
     private UUID academicYearId;

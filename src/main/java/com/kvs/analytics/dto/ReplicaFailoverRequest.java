@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ReplicaFailoverRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "targetHostname is mandatory")
     private String targetHostname;

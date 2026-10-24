@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface PaymentGatewayWebhookRepository extends JpaRepository<PaymentGatewayWebhook, UUID> {
-    List<PaymentGatewayWebhook> findByTenantId(UUID tenantId);
-    List<PaymentGatewayWebhook> findByTenantIdAndClearanceStatus(UUID tenantId, WebhookClearanceStatus status);
+    List<PaymentGatewayWebhook> findByTenantId(String tenantId);
+    List<PaymentGatewayWebhook> findByTenantIdAndClearanceStatus(String tenantId, WebhookClearanceStatus status);
     Optional<PaymentGatewayWebhook> findByGatewayEventId(String eventId);
 }

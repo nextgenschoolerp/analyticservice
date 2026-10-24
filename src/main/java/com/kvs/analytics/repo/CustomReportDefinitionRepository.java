@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface CustomReportDefinitionRepository extends JpaRepository<CustomReportDefinition, UUID> {
-    List<CustomReportDefinition> findByTenantId(UUID tenantId);
-    List<CustomReportDefinition> findByTenantIdAndCategory(UUID tenantId, String category);
+    List<CustomReportDefinition> findByTenantId(String tenantId);
+    List<CustomReportDefinition> findByTenantIdAndCategory(String tenantId, String category);
 }

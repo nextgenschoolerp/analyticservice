@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SystemHealthMetricResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String serverNodeId;
     private Double cpuUsagePct;
     private Double memoryUsagePct;

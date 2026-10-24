@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface DatabaseReplicaNodeRepository extends JpaRepository<DatabaseReplicaNode, UUID> {
-    List<DatabaseReplicaNode> findByTenantId(UUID tenantId);
-    Optional<DatabaseReplicaNode> findByTenantIdAndNodeHostname(UUID tenantId, String hostname);
+    List<DatabaseReplicaNode> findByTenantId(String tenantId);
+    Optional<DatabaseReplicaNode> findByTenantIdAndNodeHostname(String tenantId, String hostname);
 }

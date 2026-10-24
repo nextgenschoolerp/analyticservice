@@ -48,7 +48,7 @@ public class HardwareAndWebhooksController {
     @GetMapping("/biometric/devices")
     @PreAuthorize(AnalyticsRoles.GATEWAY_INGEST)
     public ResponseEntity<ApiResponse<List<BiometricDeviceResponse>>> listDevices(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<BiometricDeviceResponse> response = hardwareService.listDevices(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<BiometricDeviceResponse>>builder()
@@ -76,7 +76,7 @@ public class HardwareAndWebhooksController {
     @GetMapping("/biometric/attendance-stream")
     @PreAuthorize(AnalyticsRoles.GATEWAY_INGEST)
     public ResponseEntity<ApiResponse<List<AttendanceStreamEventResponse>>> listAttendanceEvents(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<AttendanceStreamEventResponse> response = hardwareService.listAttendanceEvents(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<AttendanceStreamEventResponse>>builder()
@@ -105,7 +105,7 @@ public class HardwareAndWebhooksController {
     @GetMapping("/webhooks/payment")
     @PreAuthorize(AnalyticsRoles.WEBHOOK_MANAGE)
     public ResponseEntity<ApiResponse<List<PaymentWebhookResponse>>> listPaymentWebhooks(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<PaymentWebhookResponse> response = hardwareService.listPaymentWebhooks(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<PaymentWebhookResponse>>builder()
@@ -134,7 +134,7 @@ public class HardwareAndWebhooksController {
     @GetMapping("/bank-recon")
     @PreAuthorize(AnalyticsRoles.WEBHOOK_MANAGE)
     public ResponseEntity<ApiResponse<List<BankReconResponse>>> listBankReconciliation(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<BankReconResponse> response = hardwareService.listBankReconciliation(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<BankReconResponse>>builder()
@@ -163,7 +163,7 @@ public class HardwareAndWebhooksController {
     @GetMapping("/whatsapp/configs")
     @PreAuthorize(AnalyticsRoles.GATEWAY_INGEST)
     public ResponseEntity<ApiResponse<List<WhatsAppGatewayConfig>>> getWhatsAppConfigs(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<WhatsAppGatewayConfig> response = hardwareService.getWhatsAppConfigs(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<WhatsAppGatewayConfig>>builder()
@@ -192,7 +192,7 @@ public class HardwareAndWebhooksController {
     @GetMapping("/tally/batches")
     @PreAuthorize(AnalyticsRoles.WEBHOOK_MANAGE)
     public ResponseEntity<ApiResponse<List<TallySyncResponse>>> listTallyBatches(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<TallySyncResponse> response = hardwareService.listTallyBatches(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<TallySyncResponse>>builder()

@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface ApiLatencyRuleRepository extends JpaRepository<ApiLatencyRule, UUID> {
-    List<ApiLatencyRule> findByTenantId(UUID tenantId);
-    List<ApiLatencyRule> findByTenantIdAndIsActiveTrue(UUID tenantId);
+    List<ApiLatencyRule> findByTenantId(String tenantId);
+    List<ApiLatencyRule> findByTenantIdAndIsActiveTrue(String tenantId);
 }

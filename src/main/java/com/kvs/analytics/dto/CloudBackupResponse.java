@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CloudBackupResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String snapshotName;
     private String cloudProvider;
     private String bucketLocation;

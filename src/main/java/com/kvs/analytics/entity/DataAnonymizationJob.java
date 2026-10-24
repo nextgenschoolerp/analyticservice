@@ -24,7 +24,7 @@ public class DataAnonymizationJob extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "job_name", nullable = false, length = 150)
     private String jobName;

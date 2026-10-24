@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface SystemUptimeSlaRepository extends JpaRepository<SystemUptimeSla, UUID> {
-    List<SystemUptimeSla> findByTenantId(UUID tenantId);
-    Optional<SystemUptimeSla> findByTenantIdAndPeriodMonthYear(UUID tenantId, String periodMonthYear);
+    List<SystemUptimeSla> findByTenantId(String tenantId);
+    Optional<SystemUptimeSla> findByTenantIdAndPeriodMonthYear(String tenantId, String periodMonthYear);
 }

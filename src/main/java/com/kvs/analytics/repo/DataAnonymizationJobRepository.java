@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface DataAnonymizationJobRepository extends JpaRepository<DataAnonymizationJob, UUID> {
-    List<DataAnonymizationJob> findByTenantId(UUID tenantId);
+    List<DataAnonymizationJob> findByTenantId(String tenantId);
 }

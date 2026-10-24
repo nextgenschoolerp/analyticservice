@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PaymentWebhookResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String gatewayProvider;
     private String gatewayEventId;
     private String eventType;

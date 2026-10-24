@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ComplianceCertificateRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "certificateType is mandatory (e.g. FIRE_SAFETY, SANITARY_HYGIENE, BUILDING_SAFETY)")
     private String certificateType;

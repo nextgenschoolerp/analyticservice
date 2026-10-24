@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface StatusIncidentNoticeRepository extends JpaRepository<StatusIncidentNotice, UUID> {
-    List<StatusIncidentNotice> findByTenantIdOrderByCreatedAtDesc(UUID tenantId);
-    List<StatusIncidentNotice> findByTenantIdAndIsPublicTrueOrderByCreatedAtDesc(UUID tenantId);
+    List<StatusIncidentNotice> findByTenantIdOrderByCreatedAtDesc(String tenantId);
+    List<StatusIncidentNotice> findByTenantIdAndIsPublicTrueOrderByCreatedAtDesc(String tenantId);
 }

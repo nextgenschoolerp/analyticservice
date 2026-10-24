@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface ApiIntegrationEndpointRepository extends JpaRepository<ApiIntegrationEndpoint, UUID> {
-    List<ApiIntegrationEndpoint> findByTenantId(UUID tenantId);
-    List<ApiIntegrationEndpoint> findByTenantIdAndIsActiveTrue(UUID tenantId);
+    List<ApiIntegrationEndpoint> findByTenantId(String tenantId);
+    List<ApiIntegrationEndpoint> findByTenantIdAndIsActiveTrue(String tenantId);
 }

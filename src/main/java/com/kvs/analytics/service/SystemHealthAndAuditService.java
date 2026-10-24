@@ -48,7 +48,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public SystemHealthMetricResponse getLatestHealth(UUID tenantId) {
+    public SystemHealthMetricResponse getLatestHealth(String tenantId) {
         return healthRepo.findFirstByTenantIdOrderByRecordedAtDesc(tenantId)
                 .map(this::mapToHealthResponse)
                 .orElseGet(() -> SystemHealthMetricResponse.builder()
@@ -65,7 +65,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public List<SystemHealthMetricResponse> getHealthHistory(UUID tenantId) {
+    public List<SystemHealthMetricResponse> getHealthHistory(String tenantId) {
         return healthRepo.findByTenantIdOrderByRecordedAtDesc(tenantId).stream()
                 .map(this::mapToHealthResponse)
                 .collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public List<DataModificationAuditResponse> listAuditLogs(UUID tenantId) {
+    public List<DataModificationAuditResponse> listAuditLogs(String tenantId) {
         return auditRepo.findByTenantIdOrderByCreatedAtDesc(tenantId).stream()
                 .map(this::mapToAuditResponse)
                 .collect(Collectors.toList());
@@ -119,7 +119,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public List<CloudBackupResponse> listBackups(UUID tenantId) {
+    public List<CloudBackupResponse> listBackups(String tenantId) {
         return backupRepo.findByTenantIdOrderByPointInTimeDesc(tenantId).stream()
                 .map(this::mapToBackupResponse)
                 .collect(Collectors.toList());
@@ -172,7 +172,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReplicaNodeResponse> getReplicaStatus(UUID tenantId) {
+    public List<ReplicaNodeResponse> getReplicaStatus(String tenantId) {
         return replicaRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToReplicaResponse)
                 .collect(Collectors.toList());
@@ -203,7 +203,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public List<UptimeSlaResponse> listUptimeSlas(UUID tenantId) {
+    public List<UptimeSlaResponse> listUptimeSlas(String tenantId) {
         return slaRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToSlaResponse)
                 .collect(Collectors.toList());
@@ -227,7 +227,7 @@ public class SystemHealthAndAuditService {
     }
 
     @Transactional(readOnly = true)
-    public List<StatusIncidentResponse> listIncidents(UUID tenantId) {
+    public List<StatusIncidentResponse> listIncidents(String tenantId) {
         return incidentRepo.findByTenantIdOrderByCreatedAtDesc(tenantId).stream()
                 .map(this::mapToIncidentResponse)
                 .collect(Collectors.toList());

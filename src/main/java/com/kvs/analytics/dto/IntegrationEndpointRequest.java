@@ -14,7 +14,7 @@ import java.util.UUID;
 public class IntegrationEndpointRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "endpointName cannot be blank")
     private String endpointName;

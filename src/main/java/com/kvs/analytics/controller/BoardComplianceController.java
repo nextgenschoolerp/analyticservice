@@ -46,7 +46,7 @@ public class BoardComplianceController {
     @GetMapping("/cbse-loc/exports")
     @PreAuthorize(AnalyticsRoles.COMPLIANCE_MANAGE)
     public ResponseEntity<ApiResponse<List<CbseLocExportConfig>>> listLocExports(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<CbseLocExportConfig> response = complianceService.listLocExports(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<CbseLocExportConfig>>builder()
@@ -75,7 +75,7 @@ public class BoardComplianceController {
     @GetMapping("/anonymization/jobs")
     @PreAuthorize(AnalyticsRoles.COMPLIANCE_MANAGE)
     public ResponseEntity<ApiResponse<List<AnonymizationResponse>>> listAnonymizationJobs(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<AnonymizationResponse> response = complianceService.listAnonymizationJobs(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<AnonymizationResponse>>builder()
@@ -104,7 +104,7 @@ public class BoardComplianceController {
     @GetMapping("/certificates")
     @PreAuthorize(AnalyticsRoles.COMPLIANCE_MANAGE)
     public ResponseEntity<ApiResponse<List<ComplianceCertificateResponse>>> listCertificates(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<ComplianceCertificateResponse> response = complianceService.listCertificates(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<ComplianceCertificateResponse>>builder()

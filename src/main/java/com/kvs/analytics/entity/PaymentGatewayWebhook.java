@@ -27,7 +27,7 @@ public class PaymentGatewayWebhook extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "gateway_provider", nullable = false, length = 50)
     private String gatewayProvider;

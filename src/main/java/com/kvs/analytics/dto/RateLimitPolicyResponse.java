@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RateLimitPolicyResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String policyName;
     private String clientIdentifier;
     private Integer windowSeconds;

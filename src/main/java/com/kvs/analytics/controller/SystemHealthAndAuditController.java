@@ -49,7 +49,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/health/latest")
     @PreAuthorize(AnalyticsRoles.AUDIT_VIEW)
     public ResponseEntity<ApiResponse<SystemHealthMetricResponse>> getLatestHealth(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         SystemHealthMetricResponse response = systemService.getLatestHealth(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<SystemHealthMetricResponse>builder()
@@ -63,7 +63,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/health/history")
     @PreAuthorize(AnalyticsRoles.AUDIT_VIEW)
     public ResponseEntity<ApiResponse<List<SystemHealthMetricResponse>>> getHealthHistory(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<SystemHealthMetricResponse> response = systemService.getHealthHistory(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<SystemHealthMetricResponse>>builder()
@@ -92,7 +92,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/audit/logs")
     @PreAuthorize(AnalyticsRoles.AUDIT_VIEW)
     public ResponseEntity<ApiResponse<List<DataModificationAuditResponse>>> listAuditLogs(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<DataModificationAuditResponse> response = systemService.listAuditLogs(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<DataModificationAuditResponse>>builder()
@@ -121,7 +121,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/backups")
     @PreAuthorize(AnalyticsRoles.BACKUP_MANAGE)
     public ResponseEntity<ApiResponse<List<CloudBackupResponse>>> listBackups(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<CloudBackupResponse> response = systemService.listBackups(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<CloudBackupResponse>>builder()
@@ -164,7 +164,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/replicas")
     @PreAuthorize(AnalyticsRoles.BACKUP_MANAGE)
     public ResponseEntity<ApiResponse<List<ReplicaNodeResponse>>> getReplicaStatus(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<ReplicaNodeResponse> response = systemService.getReplicaStatus(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<ReplicaNodeResponse>>builder()
@@ -193,7 +193,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/uptime/sla")
     @PreAuthorize(AnalyticsRoles.AUDIT_VIEW)
     public ResponseEntity<ApiResponse<List<UptimeSlaResponse>>> listUptimeSlas(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<UptimeSlaResponse> response = systemService.listUptimeSlas(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<UptimeSlaResponse>>builder()
@@ -221,7 +221,7 @@ public class SystemHealthAndAuditController {
     @GetMapping("/status/incidents")
     @PreAuthorize(AnalyticsRoles.AUDIT_VIEW)
     public ResponseEntity<ApiResponse<List<StatusIncidentResponse>>> listIncidents(
-            @RequestParam UUID tenantId) {
+            @RequestParam String tenantId) {
         List<StatusIncidentResponse> response = systemService.listIncidents(tenantId);
         return ResponseEntity.ok(
                 ApiResponse.<List<StatusIncidentResponse>>builder()

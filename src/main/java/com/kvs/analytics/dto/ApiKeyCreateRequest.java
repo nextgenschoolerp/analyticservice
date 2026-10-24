@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ApiKeyCreateRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "keyName is mandatory")
     private String keyName;

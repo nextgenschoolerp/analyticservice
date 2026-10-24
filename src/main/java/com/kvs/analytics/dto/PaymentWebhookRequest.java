@@ -14,7 +14,7 @@ import java.util.UUID;
 public class PaymentWebhookRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "gatewayProvider is mandatory")
     private String gatewayProvider;

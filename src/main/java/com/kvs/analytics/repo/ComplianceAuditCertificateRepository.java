@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface ComplianceAuditCertificateRepository extends JpaRepository<ComplianceAuditCertificate, UUID> {
-    List<ComplianceAuditCertificate> findByTenantId(UUID tenantId);
-    List<ComplianceAuditCertificate> findByTenantIdAndStatus(UUID tenantId, CertificateStatus status);
+    List<ComplianceAuditCertificate> findByTenantId(String tenantId);
+    List<ComplianceAuditCertificate> findByTenantIdAndStatus(String tenantId, CertificateStatus status);
 }

@@ -24,7 +24,7 @@ public class DataModificationAudit extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "table_name", nullable = false, length = 100)
     private String tableName;

@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface CbseLocExportConfigRepository extends JpaRepository<CbseLocExportConfig, UUID> {
-    List<CbseLocExportConfig> findByTenantId(UUID tenantId);
-    List<CbseLocExportConfig> findByTenantIdAndAcademicYearId(UUID tenantId, UUID academicYearId);
+    List<CbseLocExportConfig> findByTenantId(String tenantId);
+    List<CbseLocExportConfig> findByTenantIdAndAcademicYearId(String tenantId, UUID academicYearId);
 }

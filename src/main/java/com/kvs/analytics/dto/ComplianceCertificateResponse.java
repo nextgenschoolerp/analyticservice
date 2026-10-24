@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ComplianceCertificateResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String certificateType;
     private String certificateNumber;
     private String issuingAuthority;

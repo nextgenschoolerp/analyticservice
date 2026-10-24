@@ -24,7 +24,7 @@ public class WhatsAppGatewayConfig extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "bsp_provider", nullable = false, length = 50)
     @Builder.Default

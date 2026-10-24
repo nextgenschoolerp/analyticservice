@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class WhatsAppDispatchResponse {
     private String dispatchId;
-    private UUID tenantId;
+    private String tenantId;
     private String recipientPhone;
     private String channelUsed; // WHATSAPP or SMS_FAILOVER
     private String messageStatus; // SENT, DELIVERED, FAILED

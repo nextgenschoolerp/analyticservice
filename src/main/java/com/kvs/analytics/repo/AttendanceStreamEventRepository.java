@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface AttendanceStreamEventRepository extends JpaRepository<AttendanceStreamEvent, UUID> {
-    List<AttendanceStreamEvent> findByTenantId(UUID tenantId);
-    List<AttendanceStreamEvent> findByTenantIdAndIsProcessedFalse(UUID tenantId);
+    List<AttendanceStreamEvent> findByTenantId(String tenantId);
+    List<AttendanceStreamEvent> findByTenantIdAndIsProcessedFalse(String tenantId);
 }

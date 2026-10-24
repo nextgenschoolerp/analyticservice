@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface CloudBackupSnapshotRepository extends JpaRepository<CloudBackupSnapshot, UUID> {
-    List<CloudBackupSnapshot> findByTenantIdOrderByPointInTimeDesc(UUID tenantId);
+    List<CloudBackupSnapshot> findByTenantIdOrderByPointInTimeDesc(String tenantId);
 }

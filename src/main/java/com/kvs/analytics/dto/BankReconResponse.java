@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BankReconResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String statementTransactionId;
     private String erpTransactionRef;
     private BigDecimal bankAmount;

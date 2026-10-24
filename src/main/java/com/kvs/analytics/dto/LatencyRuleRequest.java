@@ -13,7 +13,7 @@ import java.util.UUID;
 public class LatencyRuleRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "ruleName cannot be blank")
     private String ruleName;

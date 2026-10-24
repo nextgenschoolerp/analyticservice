@@ -77,7 +77,7 @@ public class BoardComplianceService {
     }
 
     @Transactional(readOnly = true)
-    public List<CbseLocExportConfig> listLocExports(UUID tenantId) {
+    public List<CbseLocExportConfig> listLocExports(String tenantId) {
         return locRepo.findByTenantId(tenantId);
     }
 
@@ -113,7 +113,7 @@ public class BoardComplianceService {
     }
 
     @Transactional(readOnly = true)
-    public List<AnonymizationResponse> listAnonymizationJobs(UUID tenantId) {
+    public List<AnonymizationResponse> listAnonymizationJobs(String tenantId) {
         return anonymizationRepo.findByTenantId(tenantId).stream()
                 .map(j -> AnonymizationResponse.builder()
                         .id(j.getId())
@@ -158,7 +158,7 @@ public class BoardComplianceService {
     }
 
     @Transactional(readOnly = true)
-    public List<ComplianceCertificateResponse> listCertificates(UUID tenantId) {
+    public List<ComplianceCertificateResponse> listCertificates(String tenantId) {
         return certRepo.findByTenantId(tenantId).stream()
                 .map(this::mapToCertResponse)
                 .collect(Collectors.toList());

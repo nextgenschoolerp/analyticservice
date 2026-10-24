@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UptimeSlaResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String periodMonthYear;
     private Integer totalMinutes;
     private Integer downtimeMinutes;

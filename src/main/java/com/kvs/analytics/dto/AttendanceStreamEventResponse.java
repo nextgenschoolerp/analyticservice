@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AttendanceStreamEventResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String deviceSerialNumber;
     private String userBiometricId;
     private Instant punchTimestamp;

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class SystemHealthMetricRequest {
 
     @NotNull(message = "tenantId is mandatory")
-    private UUID tenantId;
+    private String tenantId;
 
     @NotBlank(message = "serverNodeId is mandatory")
     private String serverNodeId;

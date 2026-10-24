@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class StatusIncidentResponse {
     private UUID id;
-    private UUID tenantId;
+    private String tenantId;
     private String incidentTitle;
     private IncidentSeverity severity;
     private IncidentStatus status;

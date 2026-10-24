@@ -25,7 +25,7 @@ public class CloudBackupSnapshot extends BaseAuditEntity {
     private UUID id;
 
     @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
+    private String tenantId;
 
     @Column(name = "snapshot_name", nullable = false, length = 150)
     private String snapshotName;
