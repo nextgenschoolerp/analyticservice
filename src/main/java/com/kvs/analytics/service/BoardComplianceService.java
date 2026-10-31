@@ -58,7 +58,7 @@ public class BoardComplianceService {
                 .candidateCount(candidates)
                 .exportFormat(format)
                 .generatedFileUrl(fileUrl)
-                .generatedByUserId(req.getGeneratedByUserId() != null ? req.getGeneratedByUserId() : UUID.randomUUID())
+                .generatedByUserId(req.getGeneratedByUserId() != null ? req.getGeneratedByUserId() : UUID.randomUUID().toString())
                 .build();
 
         config = locRepo.save(config);

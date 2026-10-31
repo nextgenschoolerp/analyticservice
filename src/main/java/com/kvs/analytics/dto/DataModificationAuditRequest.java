@@ -26,7 +26,7 @@ public class DataModificationAuditRequest {
 
     private String oldValuesJson;
     private String newValuesJson;
-    private UUID modifiedByUserId;
+    private String modifiedByUserId;
     private String modifiedByUsername;
     private Long queryDurationMs;
     private String clientIp;

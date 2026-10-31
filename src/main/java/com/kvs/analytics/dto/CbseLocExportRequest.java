@@ -22,5 +22,5 @@ public class CbseLocExportRequest {
     private String className;
 
     private String exportFormat;
-    private UUID generatedByUserId;
+    private String generatedByUserId;
 }

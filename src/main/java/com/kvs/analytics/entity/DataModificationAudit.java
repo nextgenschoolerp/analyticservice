@@ -42,7 +42,7 @@ public class DataModificationAudit extends BaseAuditEntity {
     private String newValuesJson;
 
     @Column(name = "modified_by_user_id", nullable = false)
-    private UUID modifiedByUserId;
+    private String modifiedByUserId;
 
     @Column(name = "modified_by_username", length = 150)
     private String modifiedByUsername;

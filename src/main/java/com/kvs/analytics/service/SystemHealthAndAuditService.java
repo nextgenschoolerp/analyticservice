@@ -82,7 +82,7 @@ public class SystemHealthAndAuditService {
                 .recordId(req.getRecordId())
                 .oldValuesJson(req.getOldValuesJson())
                 .newValuesJson(req.getNewValuesJson())
-                .modifiedByUserId(req.getModifiedByUserId() != null ? req.getModifiedByUserId() : UUID.randomUUID())
+                .modifiedByUserId(req.getModifiedByUserId() != null ? req.getModifiedByUserId() : UUID.randomUUID().toString())
                 .modifiedByUsername(req.getModifiedByUsername() != null ? req.getModifiedByUsername() : "system")
                 .queryDurationMs(req.getQueryDurationMs() != null ? req.getQueryDurationMs() : 12L)
                 .clientIp(req.getClientIp() != null ? req.getClientIp() : "127.0.0.1")

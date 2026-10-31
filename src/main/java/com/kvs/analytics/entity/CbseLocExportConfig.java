@@ -44,5 +44,5 @@ public class CbseLocExportConfig extends BaseAuditEntity {
     private String generatedFileUrl;
 
     @Column(name = "generated_by_user_id", nullable = false)
-    private UUID generatedByUserId;
+    private String generatedByUserId;
 }
