@@ -36,7 +36,7 @@ public class AnalyticsReportingService {
                 .metricsJson(req.getMetricsJson() != null ? req.getMetricsJson() : "[\"count(student_id)\", \"avg(attendance_pct)\"]")
                 .filtersJson(req.getFiltersJson() != null ? req.getFiltersJson() : "{\"academic_year\":\"2026-2027\"}")
                 .chartType(req.getChartType() != null ? req.getChartType().toUpperCase() : "BAR")
-                .createdByUserId(req.getCreatedByUserId() != null ? req.getCreatedByUserId() : UUID.randomUUID())
+                .createdByUserId(req.getCreatedByUserId() != null && !req.getCreatedByUserId().isBlank() ? req.getCreatedByUserId().trim() : UUID.randomUUID().toString())
                 .build();
 
         report = reportRepo.save(report);

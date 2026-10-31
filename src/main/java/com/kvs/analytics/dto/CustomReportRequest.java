@@ -25,5 +25,5 @@ public class CustomReportRequest {
     private String metricsJson;
     private String filtersJson;
     private String chartType;
-    private UUID createdByUserId;
+    private String createdByUserId;
 }

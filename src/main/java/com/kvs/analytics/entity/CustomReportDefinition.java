@@ -45,6 +45,6 @@ public class CustomReportDefinition extends BaseAuditEntity {
     @Builder.Default
     private String chartType = "BAR";
 
-    @Column(name = "created_by_user_id", nullable = false)
-    private UUID createdByUserId;
+    @Column(name = "created_by_user_id", nullable = false, length = 100)
+    private String createdByUserId;
 }
